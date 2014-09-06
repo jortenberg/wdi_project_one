@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Wisdom Acquisition</title>
+</head>
+<body>
+<!-- on the left
+posts listed, 10 at a time from most recent to oldest with a button to get the next 10 under the list. 
+anchor tag list of posts that when clicked go to
+/posts/:id -->
+<div>
+  <ul>
+    <% posts.each do |post| %>
+      <li>
+        <a href="/posts/<%= post.id %>"><%= post.quote %></a>
+        <h5><%= post.author %> -- <em><%= post.source %></em><br>
+        	------------------</h5>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<div>
+
+
+   <form action="/categroies/<%= :id %>/posts" method="GET">
+    <p>View quotes by category.</p>
+   <!--  <input type="text" name="name" placeholder="Name" />
+    <input type="text" name="url" placeholder="Image Url" /> -->
+    <select name="category_id">
+      <% categories.each do |category| %>
+        <option value="<%= category.id %>"><%= category.name %></option>
+      <% end %>
+    </select>
+    <button>Submit</button><br>
+    <h5>-------------------</h5>
+  </form>
+
+
+
+
+<!-- on the right
+pulldown menu "view posts by category" -select -submit
+this takes you to -->
+ 
+ <form action="/categroies/posts/new" method="GET">
+ 		<p>Create a new quote from existing category.</p>
+   <!--  <input type="text" name="name" placeholder="Name" />
+    <input type="text" name="url" placeholder="Image Url" /> -->
+    <select name="category_id">
+      <% categories.each do |category| %>
+        <option value="<%= category.id %>"><%= category.name %></option>
+      <% end %>
+    </select>
+    <button>Submit</button><br>
+    <h5>-------------------</h5>
+  </form>
+
+
+
+   <a href="/categories/new">Create New Category.</a>
+ 		
+
+  </div>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Create New Quote</title>
+</head>
+<body>
+
+
+ 	<h3>Share a quote here.</h3>
+
+
+	<form action="/posts/new" method="POST">
+	 	<input type="hidden" name="category_id" value=<%= category.id %> /><br>
+ 		<p>Please add your quote to the <%= category.name %> category.</p>
+		<textarea name="quote" rows="8" cols="50" placeholder="Wisdom Quote..."></textarea><br>
+		<p>Author of the quote.</p>
+		<textarea name="author" rows="1" cols="50" placeholder="Author..."></textarea><br>
+		<p>Source of the quote.</p>
+		<textarea name="source" rows="1" cols="50" placeholder="Source..."></textarea><br>
+		<p>Your name (optional).</p>
+		<textarea name="posted_by" rows="1" cols="50" placeholder="Posted by..."></textarea><br>
+		<p>Date for quote to be deleted from this site (optional).</p>
+		<textarea name="expires_on" rows="1" cols="50" placeholder="Expiration date..."></textarea><br>
+		<button>Submit</button>
+	</form>
+
+</body>
+</html>
+
+
+
