@@ -12,14 +12,21 @@ after do
 end
 
 get("/") do #shows all posts chron backwards
+  # Post.limit(10).order(asc)
+  # Post.limit(10).last
+
   erb(:index, { locals: { categories: Category.all(), posts: Post.all() } })
 end
 
 get("/posts/:id") do #shows one post
-  erb(:post_show)
+  post = Post.find_by({id: params["id"]})
+
+  comments = Comment.where(:post_id => params["id"])
+
+  erb(:post_show, { locals: { post: post, comments: comments, categories: Category.all() } })
 end
 
-get("/categroies/:id/posts") do #shows posts from one category chron backwards
+get("/categories/:id/posts") do #shows posts from one category chron backwards
   erb(:posts_by_category, { locals: { categories: Category.all(), posts: Post.all() } })
 end
 
@@ -47,7 +54,7 @@ delete("/categories/:id") do
 end
 
 
-get("/categroies/posts/new") do #shows form to make new Post
+get("/categories/posts/new") do #shows form to make new Post
 
   category = Category.find_by({id: params[:category_id]}) 
 
@@ -68,73 +75,50 @@ post("/posts/new") do
 
   post = Post.find_by({quote: params["quote"]})
 
-  erb(:post_show, { locals: { post: post } }) #after someone posts a new post they see a page of just their post alone.
+  erb(:post_show, { locals: { post: post, categories: Category.all(), posts: Post.all() } }) #after someone posts a new post they see a page of just their post alone.
 end
 
-
-
-
-# ___________________________
-
-
-get("/characters") do
-  erb(:"characters/index", { locals: { characters: Character.all(), } })
-end
-
-get("/characters/new") do
-  erb(:"characters/new", { locals: { houses: House.all(), } })
-end
-
-post("/characters") do
-  character_hash = { 
-    name: params["name"], 
-    image_url: params["url"], 
-    house_id: params["house_id"]
+post("/posts/comment") do #post comment from form on the post_show.erb page
+  comment_hash = { 
+    say: params["say"],
+    post_id: params["post_id"]  
   }
 
-  Character.create(character_hash)
+  Comment.create(comment_hash)
 
-  erb(:"characters/index", { locals: { characters: Character.all() } })
+  post = Post.find_by({id: params["post_id"]})
+
+  comments = Comment.where(:post_id => params["post_id"])
+
+  erb(:post_show, { locals: { post: post, comments: comments, categories: Category.all() } })
 end
 
-get("/characters/:id") do
-  character = Character.find_by({id: params[:id]})
-  erb(:"characters/show", { locals: { character: character } })
+post("/posts/thumbdown/") do
+
+  post = Post.find_by({id: params["id"]})
+
+ #does it need to be a puts edit to do this????
+  post.downvotes += 1
+
+  erb(:post_show, { locals: { post: post, categories: Category.all(), posts: Post.all(), comments: Comment.all() } })
 end
 
-get("/characters/:id/edit") do
-  character = Character.find_by({id: params[:id]})
-  erb(:"characters/edit", { locals: { character: character, houses: House.all() } })
-end
+# put("/characters/:id") do
+#   character_hash = { 
+#     name: params["name"], 
+#     image_url: params["url"], 
+#     house_id: params["house_id"]
+#   }
 
-put("/characters/:id") do
-  character_hash = { 
-    name: params["name"], 
-    image_url: params["url"], 
-    house_id: params["house_id"]
-  }
+#   character = Character.find_by({id: params[:id]})
+#   character.update(character_hash)
 
-  character = Character.find_by({id: params[:id]})
-  character.update(character_hash)
+#   erb(:"characters/show", { locals: { character: character } })
+# end
 
-  erb(:"characters/show", { locals: { character: character } })
-end
 
-delete("/characters/:id") do
-  character = Character.find_by({id: params[:id]})
 
-  binding.pry
-  
-  character.destroy
 
-  redirect "/characters"
-end
 
-get("/houses") do
-  erb(:"houses/index", { locals: { houses: House.all() } })
-end
 
-get("/houses/:id") do
-  house = House.find_by({id: params[:id]})
-  erb(:"houses/show", { locals: { house: house } })
-end
+

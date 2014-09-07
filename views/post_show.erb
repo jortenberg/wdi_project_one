@@ -8,13 +8,41 @@
 
 <div>
 
-<p>Hello World</p>
+  <h2> <%= post.quote %></h2>
+  <h5><%= post.author %> -- <em><%= post.source %></em><br>
+  ------------------</h5>
 
- 		
+
+ 	<a href="/posts/thumbup/<%= post.id %>">thumbsup</a><br>
+ 	<a href="/posts/subscribe">subscribe to this post.</a><br>
+
+ 	 <form action="/posts/thumbdown/" method="POST">
+	 	<input type="hidden" name="id" value=<%= post.id %> /><br>
+	 	<button>Thumbsdown</button><p>Thumbsdown total: <%= post.downvotes %></p>
+	 </form>
+
+
+ 	<form action="/posts/comment" method="POST">
+	 	<input type="hidden" name="post_id" value=<%= post.id %> /><br>
+ 		<p>Please add your comment, if so inclined.</p>
+		<textarea name="say" rows="8" cols="50" placeholder="Comment..."></textarea><br>
+		<button>Submit</button>
+	</form>
+
 
 </div>
 
-
+<div>
+	<h4>Past Comments about this Quote</h4>
+  <ul>
+    <% comments.each do |comment| %>
+      <li>
+        <p><%= comment.say %>><br>
+        	------------------</p>
+      </li>
+    <% end %>
+  </ul>
+</div>
 
 
 </body>
