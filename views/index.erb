@@ -24,11 +24,9 @@ anchor tag list of posts that when clicked go to
 <div>
 
 
-   <form action="/categroies/<%= :id %>/posts" method="GET">
+   <form action="/categroies/<%= "id" %>/posts" method="GET">
     <p>View quotes by category.</p>
-   <!--  <input type="text" name="name" placeholder="Name" />
-    <input type="text" name="url" placeholder="Image Url" /> -->
-    <select name="category_id">
+    <select name="category.id">
       <% categories.each do |category| %>
         <option value="<%= category.id %>"><%= category.name %></option>
       <% end %>
@@ -46,8 +44,6 @@ this takes you to -->
  
  <form action="/categories/posts/new" method="GET">
  		<p>Create a new quote from existing category.</p>
-   <!--  <input type="text" name="name" placeholder="Name" />
-    <input type="text" name="url" placeholder="Image Url" /> -->
     <select name="category_id">
       <% categories.each do |category| %>
         <option value="<%= category.id %>"><%= category.name %></option>
@@ -59,7 +55,7 @@ this takes you to -->
 
 
 
-   <a href="/categories/new">Create New Category.</a>
+   <a href="/categories/new">Create New Category</a>
  		
 
   </div>

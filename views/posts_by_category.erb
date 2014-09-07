@@ -2,16 +2,52 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Create New Category</title>
+	<title>View Posts By Category</title>
 </head>
 <body>
 
- 
+	<div>
+	  <ul>
+	    <% posts.each do |post| %>
+	      <li>
+	        <a href="/posts/<%= post.id %>"><%= post.quote %></a>
+	        <h5><%= post.author %> -- <em><%= post.source %></em><br>
+	        	------------------</h5>
+	      </li>
+	    <% end %>
+	  </ul>
+	</div>
 
- 		<p>View posts by category</p>
+	<div>
+
+	  <form action="/categroies/<%= "id" %>/posts" method="GET">
+	    <p>View quotes by category.</p>
+	    <select name="category.id">
+	      <% categories.each do |category| %>
+	        <option value="<%= category.id %>"><%= category.name %></option>
+	      <% end %>
+	    </select>
+	    <button>Submit</button><br>
+	    <h5>-------------------</h5>
+	  </form>
 
 
+	 	<form action="/categories/posts/new" method="GET">
+	 		<p>Create a new quote from existing category.</p>
+	    <select name="category_id">
+	      <% categories.each do |category| %>
+	        <option value="<%= category.id %>"><%= category.name %></option>
+	      <% end %>
+	    </select>
+	    <button>Submit</button><br>
+	    <h5>-------------------</h5>
+	  </form>
 
+	  <a href="/categories/new">Create New Category</a><br>
+
+	  <a href="/">home</a>
+ 		
+  </div>
 
 </body>
 </html>
