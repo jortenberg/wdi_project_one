@@ -14,17 +14,18 @@ end
 get("/") do #shows all posts chron backwards
   # Post.limit(10).order(asc)
   # Post.limit(10).last
+  # User.find_each(start: 2000, batch_size: 5000) do |user|
+  # NewsLetter.weekly_deliver(user)
 
   erb(:index, { locals: { categories: Category.all(), posts: Post.all() } })
 end
 
 get("/categroies/:id/posts") do #shows all posts chron backwards in 1 category
   # Post.limit(10).order(asc)
-  # Post.limit(10).last
-
+  empty_cat = params["category.id"]
   posts = Post.where(:category_id => params["category.id"])
 
-  erb(:posts_by_category, { locals: { categories: Category.all(), posts: posts } })
+  erb(:posts_by_category, { locals: { categories: Category.all(), posts: posts, empty_cat: empty_cat } })
 end
 
 get("/posts/:id") do #shows one post

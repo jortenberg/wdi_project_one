@@ -7,6 +7,13 @@
 <body>
 
 	<div>
+		<% if posts == [] %>
+			<form action="/categories/<%= empty_cat %>" method="POST">
+    		<input type="hidden" name="_method" value="DELETE">
+    		<button>Delete Empty Category</button>
+  		</form>
+		<% end %>
+
 	  <ul>
 	    <% posts.each do |post| %>
 	      <li>
