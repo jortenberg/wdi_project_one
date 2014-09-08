@@ -16,12 +16,16 @@ get("/") do #shows all posts chron backwards
   # Post.limit(10).last
   # User.find_each(start: 2000, batch_size: 5000) do |user|
   # NewsLetter.weekly_deliver(user)
+  # posts = Post.all().last(10).reverse
+
+  # posts_10 = Post.where("id" < params["id"]).limit(10) #.order('id asc')
+  # start_after_id = (most_recent_10posts.last).id
 
   erb(:index, { locals: { categories: Category.all(), posts: Post.all() } })
 end
 
-get("/categroies/:id/posts") do #shows all posts chron backwards in 1 category
-  # Post.limit(10).order(asc)
+get("/categories/:id/posts") do #shows all posts chron backwards in 1 category
+
   empty_cat = params["category.id"]
   posts = Post.where(:category_id => params["category.id"])
 
@@ -32,6 +36,8 @@ get("/posts/:id") do #shows one post
   post = Post.find_by({id: params["id"]})
 
   comments = Comment.where(:post_id => params["id"])
+
+  # binding.pry
 
   erb(:post_show, { locals: { post: post, comments: comments, categories: Category.all() } })
 end
@@ -102,27 +108,17 @@ post("/posts/comment") do #post comment from form on the post_show.erb page
 end
 
 put("/posts/thumbsdown/:id") do #This does not work!!!!!
-  binding.pry
-
-  increment = params["downvotes"] + 1
-
-  post_hash = { 
-    author: params["author"],
-    source: params["source"],
-    posted_by: params["posted_by"],
-    quote: params["quote"],
-    expires_on: params["expires_on"],
-    downvotes: increment,
-    upvotes: params["upvotes"],
-    category_id: params["category_id"]  
-  }
-
   post = Post.find_by({id: params["id"]})
-  post.update(post_hash)
 
-  comments = Comment.where(:post_id => params["id"])
+  if post.downvotes == nil
+    post.downvotes = 1
+  else 
+    post.downvotes += 1
+  end
 
-  erb(:post_show, { locals: { post: post, comments: comments, categories: Category.all() } })
+  post.save()
+
+  redirect "/posts/#{post.id}"
 end
 
 

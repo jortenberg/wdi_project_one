@@ -16,19 +16,13 @@
  	<a href="/posts/thumbup/<%= post.id %>">thumbsup</a><br>
  	<a href="/posts/subscribe">subscribe to this post.</a><br>
 
- 	 <form action="/posts/thumbdown/<%= post.id %>" method="POST">
+ 	<form action="/posts/thumbsdown/<%= post.id %>" method="POST">
     <input type="hidden" name="_method" value="PUT">
-	 	<input type="hidden" name="id" value=<%= post.id %> /><br>
-    <input type="hidden" name="author" value=<%= post.author %> /><br>
-    <input type="hidden" name="source" value=<%= post.source %> /><br>
-    <input type="hidden" name="posted_by" value=<%= post.posted_by %> /><br>
-    <input type="hidden" name="quote" value=<%= post.quote %> /><br>
-    <input type="hidden" name="expires_on" value=<%= post.expires_on %> /><br>
-    <input type="hidden" name="category_id" value=<%= post.category_id %> /><br>
-	 	<input type="hidden" name="upvotes" value=<%= post.upvotes %> /><br>
+<!--     <input type="hidden" name="quote" value=<%= post.quote %> /><br> -->
     <input type="hidden" name="downvotes" value=<%= post.downvotes %> /><br>
     <button>Thumbsdown</button>
-	 </form>
+	</form>
+
 
    <p>Thumbsdown total: <%= post.downvotes %></p>
 
