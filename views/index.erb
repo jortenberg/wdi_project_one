@@ -25,7 +25,7 @@ anchor tag list of posts that when clicked go to
 
    <form action="/categories/<%= "id" %>/posts" method="GET">
     <p>View quotes by category.</p>
-    <select name="category.id">
+    <select name="category_id">
       <% categories.each do |category| %>
         <option value="<%= category.id %>"><%= category.name %></option>
       <% end %>

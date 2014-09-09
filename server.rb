@@ -26,10 +26,10 @@ end
 
 get("/categories/:id/posts") do #shows all posts chron backwards in 1 category
 
-  empty_cat = params["category.id"]
-  posts = Post.where(:category_id => params["category.id"])
+  posts = Post.where({category_id: params["category_id"]})
+  category = Category.find_by({id: params["category_id"]})
 
-  erb(:posts_by_category, { locals: { categories: Category.all(), posts: posts, empty_cat: empty_cat } })
+  erb(:posts_by_category, { locals: { categories: Category.all(), posts: posts, category: category } })
 end
 
 get("/posts/:id") do #shows one post
@@ -107,7 +107,21 @@ post("/posts/comment") do #post comment from form on the post_show.erb page
   erb(:post_show, { locals: { post: post, comments: comments, categories: Category.all() } })
 end
 
-put("/posts/thumbsdown/:id") do #This does not work!!!!!
+put("/posts/thumbsup/:id") do 
+  post = Post.find_by({id: params["id"]})
+
+  if post.upvotes == nil
+    post.upvotes = 1
+  else 
+    post.upvotes += 1
+  end
+
+  post.save()
+
+  redirect "/posts/#{post.id}"
+end
+
+put("/posts/thumbsdown/:id") do
   post = Post.find_by({id: params["id"]})
 
   if post.downvotes == nil
@@ -120,6 +134,36 @@ put("/posts/thumbsdown/:id") do #This does not work!!!!!
 
   redirect "/posts/#{post.id}"
 end
+
+put("/categories/thumbsup/:id") do 
+  category = Category.find_by({id: params["id"]})
+
+  if category.upvotes == nil
+    category.upvotes = 1
+  else 
+    category.upvotes += 1
+  end
+
+  category.save()
+
+  redirect "/"
+end
+
+put("/categories/thumbsdown/:id") do
+  category = Category.find_by({id: params["id"]})
+
+  if category.downvotes == nil
+    category.downvotes = 1
+  else 
+    category.downvotes += 1
+  end
+
+  category.save()
+
+  redirect "/"
+  # redirect "/categories/#{category.id}/posts"
+end
+
 
 
 

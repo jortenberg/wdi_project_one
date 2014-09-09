@@ -12,19 +12,23 @@
   <h5><%= post.author %> -- <em><%= post.source %></em><br>
   ------------------</h5>
 
-
- 	<a href="/posts/thumbup/<%= post.id %>">thumbsup</a><br>
  	<a href="/posts/subscribe">subscribe to this post.</a><br>
+  <h4>Vote On This Post!</h4>
+
+  <form action="/posts/thumbsup/<%= post.id %>" method="POST">
+    <input type="hidden" name="_method" value="PUT">
+    <button>Thumbsup</button>
+  </form>
+
+  <p>Thumbsup total: <%= post.upvotes %><br>
+    -------------------</p>
 
  	<form action="/posts/thumbsdown/<%= post.id %>" method="POST">
     <input type="hidden" name="_method" value="PUT">
-<!--     <input type="hidden" name="quote" value=<%= post.quote %> /><br> -->
-    <input type="hidden" name="downvotes" value=<%= post.downvotes %> /><br>
     <button>Thumbsdown</button>
 	</form>
 
-
-   <p>Thumbsdown total: <%= post.downvotes %></p>
+  <p>Thumbsdown total: <%= post.downvotes %></p>
 
 
 
