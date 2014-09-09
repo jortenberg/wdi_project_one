@@ -146,7 +146,9 @@ put("/categories/thumbsup/:id") do
 
   category.save()
 
-  redirect "/"
+  posts = Post.where({category_id: params["id"]})
+  
+  erb(:posts_by_category, { locals: { categories: Category.all(), posts: posts, category: category } })
 end
 
 put("/categories/thumbsdown/:id") do
@@ -160,8 +162,9 @@ put("/categories/thumbsdown/:id") do
 
   category.save()
 
-  redirect "/"
-  # redirect "/categories/#{category.id}/posts"
+  posts = Post.where({category_id: params["id"]})
+  
+  erb(:posts_by_category, { locals: { categories: Category.all(), posts: posts, category: category } })
 end
 
 
